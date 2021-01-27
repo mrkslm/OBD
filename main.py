@@ -1,5 +1,7 @@
 #! python3
 import obd
+import wx
+
 
 ports = obd.scan_serial()  # return list of valid USB or RF ports
 # print(ports)
