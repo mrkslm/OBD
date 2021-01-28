@@ -3,7 +3,7 @@ import obd
 import wx
 
 ports = obd.scan_serial()  # return list of valid USB or RF ports
-# print(ports)
+print(ports)
 connection = obd.OBD(ports[1])  # connect to the second port in the list
 
 
