@@ -1,25 +1,28 @@
 #! python3
 import obd
-
+import time
 
 ports = obd.scan_serial()  # return list of valid USB or RF ports
-print(ports)
-connection = obd.OBD(ports[1])  # connect to the second port in the list
-# connection = obd.OBD() # auto connect
+if ports:
+    print(ports)
+# connection = obd.OBD(ports[1])  # connect to the second port in the list
+# connection = obd.OBD()  # auto connect
+connection = obd.Async("/dev/pts/9")
 
-def main():
-    print('Press Ctrl-C to quit.')
-    while True:
-        try:
 
-            r = connection.query(obd.commands.RPM)  # returns the response from the car
-            r2 = connection.query(obd.commands.SPEED)  # returns the response from the car
-            print(r)
-            print(r2)
-        except KeyboardInterrupt:
-            print('\nDone')
-            break
+# connection = obd.OBD("/dev/pts/9")
+
+def new_rpm(r):
+    print(f"RPM {r.value}")
+
+
+def new_speed(s):
+    print(f"SPEED: {s.value}")
 
 
 if __name__ == '__main__':
-    main()
+    connection.watch(obd.commands.RPM, callback=new_rpm)
+    connection.watch(obd.commands.SPEED, callback=new_speed)
+    connection.start()
+    time.sleep(60)
+    connection.stop()
