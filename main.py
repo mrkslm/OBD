@@ -5,9 +5,10 @@ import time
 ports = obd.scan_serial()  # return list of valid USB or RF ports
 if ports:
     print(ports)
-# connection = obd.OBD(ports[1])  # connect to the second port in the list
-# connection = obd.OBD()  # auto connect
-connection = obd.Async("/dev/pts/9")
+    connection = obd.OBD(ports[1])  # connect to the second port in the list
+    # connection = obd.OBD()  # auto connect
+else:
+    connection = obd.Async("/dev/pts/9")    # used for ELM simulator
 
 
 # connection = obd.OBD("/dev/pts/9")
